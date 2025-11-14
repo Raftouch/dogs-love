@@ -1,4 +1,11 @@
 export type DogBreedData = {
-  message: Record<string, string[]>;
+  message: {
+    [breed: string]: string[];
+  };
   status: string;
 };
+
+// export type DogBreedData = {
+//   message: Record<string, string[]>;
+//   status: string;
+// };
