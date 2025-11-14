@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { DogBreedData } from "../types/data";
+import styles from "./BreedList.module.css";
 
 export default function BreedList() {
   const [dogs, setDogs] = useState<[string, string[]][]>([]);
@@ -19,14 +20,14 @@ export default function BreedList() {
   }, []);
 
   return (
-    <div>
+    <div className="breed-list">
       <h1>Dog Breeds</h1>
-      <ul>
+      <ul className={styles.breeds}>
         {dogs.map(([breed, subBreeds]) => (
           <li key={breed}>
             <strong>{breed}</strong>
             {subBreeds.length > 0 ? (
-              <ul>
+              <ul className={styles.subbreeds}>
                 {subBreeds.map((sub) => (
                   <li key={sub}>{sub}</li>
                 ))}
