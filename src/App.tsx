@@ -1,7 +1,8 @@
 import "./App.css";
+import BreedList from "./components/BreedList";
 
 function App() {
-  return <>Dog's Love</>;
+  return <BreedList />;
 }
 
 export default App;
