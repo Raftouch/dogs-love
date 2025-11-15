@@ -8,22 +8,35 @@ type BreedCardProps = {
 };
 
 export default function BreedCard({ breed, subBreeds }: BreedCardProps) {
-  const [breedImage, setBreedImage] = useState("");
+  const [breedImage, setBreedImage] = useState<string | null>(null);
 
   const getBreedImage = async () => {
-    const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
-    const data: ImageData = await res.json();
-    setBreedImage(data.message);
+    try {
+      const res = await fetch(
+        `https://dog.ceo/api/breed/${breed}/images/random`
+      );
+      const data: ImageData = await res.json();
+
+      data.status === "success"
+        ? setBreedImage(data.message)
+        : setBreedImage(null);
+    } catch (error) {
+      setBreedImage(null);
+    }
   };
 
   useEffect(() => {
     getBreedImage();
-  }, []);
+  }, [breed]);
 
   return (
     <li>
       <strong>{breed}</strong>
-      <img height={150} src={breedImage} alt="breed photo" />
+      {breedImage ? (
+        <img height={150} src={breedImage} alt="breed photo" />
+      ) : (
+        <p>No image available</p>
+      )}
       {subBreeds.length > 0 ? (
         <ul className={styles.subbreeds}>
           {subBreeds.map((sub) => (
