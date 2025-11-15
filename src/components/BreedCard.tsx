@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./BreedCard.module.css";
+import type { ImageData } from "../types/data";
 
 type BreedCardProps = {
   breed: string;
@@ -9,14 +10,10 @@ type BreedCardProps = {
 export default function BreedCard({ breed, subBreeds }: BreedCardProps) {
   const [breedImage, setBreedImage] = useState("");
 
-  // console.log("BREED : ", breed);
-  // url: "https://dog.ceo/api/breed/whippet/images/random"
-
   const getBreedImage = async () => {
     const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
-    // const data = await res.json();
-    const data = await res.json();
-    console.log("RES : ", data);
+    const data: ImageData = await res.json();
+    setBreedImage(data.message);
   };
 
   useEffect(() => {
@@ -26,6 +23,7 @@ export default function BreedCard({ breed, subBreeds }: BreedCardProps) {
   return (
     <li>
       <strong>{breed}</strong>
+      <img height={150} src={breedImage} alt="breed photo" />
       {subBreeds.length > 0 ? (
         <ul className={styles.subbreeds}>
           {subBreeds.map((sub) => (
