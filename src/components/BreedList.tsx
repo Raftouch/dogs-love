@@ -10,9 +10,6 @@ export default function BreedList() {
     const res = await fetch("https://dog.ceo/api/breeds/list/all");
     const data: DogBreedData = await res.json();
     const breedEntries = Object.entries(data.message);
-
-    // console.log("data : ", data);
-    console.log("breed entries : ", breedEntries);
     setDogBreeds(breedEntries);
   };
 
