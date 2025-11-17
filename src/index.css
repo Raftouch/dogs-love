@@ -49,6 +49,7 @@ h1 {
 }
 
 .theme-toggler {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 0.8rem;
