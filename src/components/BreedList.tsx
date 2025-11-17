@@ -27,7 +27,7 @@ export default function BreedList() {
   }, []);
 
   return (
-    <div className="breed-list">
+    <div>
       <h1>Dog Breeds</h1>
       <ul className={styles.breeds}>
         {dogBreeds.map(([breed, subBreeds]) => (

@@ -34,10 +34,10 @@ export default function BreedCard({ breed, subBreeds }: BreedCardProps) {
   }, [breed]);
 
   return (
-    <li>
-      <strong>{breed}</strong>
+    <li className={styles.card}>
+      <strong className={styles.breedName}>{breed}</strong>
       {breedImage ? (
-        <img height={150} src={breedImage} alt="breed photo" />
+        <img className={styles.image} src={breedImage} alt={`${breed} photo`} />
       ) : (
         <p>No image available</p>
       )}
