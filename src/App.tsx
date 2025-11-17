@@ -33,6 +33,8 @@ function App() {
           dark_mode
         </span>
       </button>
+
+      <h1>Dog Breeds</h1>
       <BreedList />
     </div>
   );
