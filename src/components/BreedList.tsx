@@ -6,6 +6,7 @@ import { dogApi } from "../utils/api";
 
 export default function BreedList() {
   const [dogBreeds, setDogBreeds] = useState<[string, string[]][]>([]);
+  const [search, setSearch] = useState("");
 
   const getDogBreeds = async () => {
     try {
@@ -28,10 +29,22 @@ export default function BreedList() {
   }, []);
 
   return (
-    <ul className={styles.breeds}>
-      {dogBreeds.map(([breed, subBreeds]) => (
-        <BreedCard key={breed} breed={breed} subBreeds={subBreeds} />
-      ))}
-    </ul>
+    <>
+      <div>
+        <label>Search breed</label>
+        <input type="text" onChange={(e) => setSearch(e.target.value)} />
+      </div>
+      <ul className={styles.breeds}>
+        {dogBreeds
+          .filter((breed) => {
+            return search.toLowerCase() === ""
+              ? breed
+              : breed[0].toLowerCase().includes(search);
+          })
+          .map(([breed, subBreeds]) => (
+            <BreedCard key={breed} breed={breed} subBreeds={subBreeds} />
+          ))}
+      </ul>
+    </>
   );
 }
