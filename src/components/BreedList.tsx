@@ -1,56 +1,25 @@
-import { useEffect, useState } from "react";
-import type { DogBreedData } from "../types/data";
+import { useState } from "react";
 import styles from "./BreedList.module.css";
 import BreedCard from "./BreedCard";
-import { dogApi } from "../utils/api";
+import { useQuery } from "@tanstack/react-query";
+import { getDogBreeds } from "../api/dogBreeds";
 
 export default function BreedList() {
-  const [dogBreeds, setDogBreeds] = useState<[string, string[]][]>([]);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-  const getDogBreeds = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const res = await fetch(`${dogApi}/breeds/list/all`);
-
-      // if (!res.ok) throw new Error("Failed to fetch breeds");
-      if (!res.ok) {
-        setError("Failed to fetch breeds");
-        return;
-      }
-
-      const data: DogBreedData = await res.json();
-      const breedEntries = Object.entries(data.message);
-
-      if (data.status === "success") {
-        setDogBreeds(breedEntries);
-      } else {
-        setError("Failed to fetch");
-        setDogBreeds([]);
-      }
-    } catch (error) {
-      console.error(error);
-      setError("Something went wrong");
-      setDogBreeds([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getDogBreeds();
-  }, []);
-
-  const filteredBreeds = dogBreeds.filter((breed) => {
-    return breed[0].toLowerCase().includes(search.toLowerCase());
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["dogBreeds"],
+    queryFn: getDogBreeds,
   });
 
-  if (loading) return <>Loading...</>;
-  if (error) return <>{error}</>;
+  if (isLoading) return <>Loading...</>;
+  if (error instanceof Error) return <>{error.message}</>;
+
+  const breedEntries = data ? Object.entries(data.message) : [];
+
+  const filteredBreeds = breedEntries.filter((breed) => {
+    return breed[0].toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <>
