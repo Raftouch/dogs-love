@@ -6,6 +6,9 @@ import { getDogBreeds } from "../api/dogBreeds";
 
 export default function BreedList() {
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+
+  const breedsPerPage = 10;
 
   const { data, status, error } = useQuery({
     queryKey: ["dogBreeds"],
@@ -21,6 +24,15 @@ export default function BreedList() {
     return breed[0].toLowerCase().includes(search.toLowerCase());
   });
 
+  const totalPages = Math.ceil(filteredBreeds.length / breedsPerPage);
+  const breedsPaginated = filteredBreeds.slice(
+    (page - 1) * breedsPerPage,
+    page * breedsPerPage
+  );
+
+  const toNextPage = () => setPage(page + 1);
+  const toPrevPage = () => setPage(page - 1);
+
   return (
     <>
       <div className={styles.searchBar}>
@@ -32,10 +44,22 @@ export default function BreedList() {
         />
       </div>
       <ul className={styles.breeds}>
-        {filteredBreeds.map(([breed, subBreeds]) => (
+        {breedsPaginated.map(([breed, subBreeds]) => (
           <BreedCard key={breed} breed={breed} subBreeds={subBreeds} />
         ))}
       </ul>
+
+      <div>
+        <button disabled={page === 1} onClick={toPrevPage}>
+          Prev
+        </button>
+        <span>
+          Page {page} / {totalPages}
+        </span>
+        <button disabled={page === totalPages} onClick={toNextPage}>
+          Next
+        </button>
+      </div>
     </>
   );
 }
