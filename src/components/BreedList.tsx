@@ -40,7 +40,10 @@ export default function BreedList() {
         <input
           type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
         />
       </div>
       <ul className={styles.breeds}>
