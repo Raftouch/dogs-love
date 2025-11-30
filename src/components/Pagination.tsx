@@ -17,16 +17,9 @@ export default function Pagination({
   totalPages,
   onNext,
   onPrev,
-  //   resultsPerPage,
-  //   totalResults,
   setCurrentPage,
   currentPage,
 }: PaginationProps) {
-  //   let pages = [];
-  //   for (let i = 1; i <= Math.ceil(totalResults / resultsPerPage); i++) {
-  //     pages.push(i);
-  //   }
-
   const pages = getPages(page, totalPages);
 
   return (
