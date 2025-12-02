@@ -31,3 +31,14 @@
   border-color: #0070f3;
   color: white;
 }
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 8px;
+  }
+
+  .pagination button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
